@@ -17,7 +17,7 @@ Clientes
         <table class="table table-striped" id="tbl">
           <thead>
             <tr>
-              <th>Nombre</th>
+              <th>RUC</th>
               <th>Dirección</th>
               <th>Teléfono</th>
               <th>Correo Electrónico</th>
@@ -46,8 +46,8 @@ Clientes
           <div class="modal-body">
             <div class="form-group">
               <input type="hidden" id="txtIdCliente">
-              <label for="txtNombre">Nombre:</label>
-              <input type="text" class="form-control" placeholder="Ingrese el nombre" id="txtNombre">
+              <label for="txtRuc">RUC</label>
+              <input type="text" class="form-control" placeholder="Ingrese el RUC" id="txtRuc">
             </div>
             <div class="form-group">
               <label for="txtDireccion">Dirección:</label>
@@ -94,7 +94,7 @@ Clientes
       },
       ajax:'/api/v1/clientes',
       columns: [
-        { data: 'nombre' },
+        { data: 'ruc' },
         { data: 'direccion' },
         { data: 'telefono' },
         { data: 'correo_electronico' },
@@ -113,7 +113,7 @@ Clientes
       $('#modalTitle').text("Agregar un Cliente");
       // inicia ventana modal
       $('#txtIdCliente').val("");
-      $('#txtNombre').val("");
+      $('#txtRuc').val("");
       $('#txtDireccion').val("");
       $('#txtTelefono').val("");
       $('#txtCorreoElectronico').val("");
@@ -124,7 +124,7 @@ Clientes
   const guardar = () => {
     $('#btnGuardar').on('click', function() {
       const idCliente = $('#txtIdCliente').val();
-      const nuevoNombre = $('#txtNombre').val();
+      const nuevoRuc = $('#txtRuc').val();
       const nuevaDireccion = $('#txtDireccion').val();
       const nuevoTelefono = $('#txtTelefono').val();
       const nuevoCorreoElectronico = $('#txtCorreoElectronico').val();
@@ -136,7 +136,7 @@ Clientes
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
-          }, body: JSON.stringify({ nombre: nuevoNombre, direccion: nuevaDireccion, telefono: nuevoTelefono, correo_electronico: nuevoCorreoElectronico })
+          }, body: JSON.stringify({ ruc: nuevoRuc, direccion: nuevaDireccion, telefono: nuevoTelefono, correo_electronico: nuevoCorreoElectronico })
         })
         .then(resp => resp.json())
         .then(data => {
@@ -156,7 +156,7 @@ Clientes
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }, body: JSON.stringify({ nombre: nuevoNombre, direccion: nuevaDireccion, telefono: nuevoTelefono, correo_electronico: nuevoCorreoElectronico })
+          }, body: JSON.stringify({ ruc: nuevoRuc, direccion: nuevaDireccion, telefono: nuevoTelefono, correo_electronico: nuevoCorreoElectronico })
         })
         .then(resp => resp.json())
         .then(data => {
@@ -171,7 +171,7 @@ Clientes
           Swal.fire("Error", "Ocurrió un error al guardar el cliente.", "error");
         });
       }
-      $('#txtNombre').val("");
+      $('#txtRuc').val("");
       $('#txtDireccion').val("");
       $('#txtTelefono').val("");
       $('#txtCorreoElectronico').val("");
@@ -201,7 +201,7 @@ Clientes
           })
           .then(resp => resp.json())
           .then(data => {
-            $('#txtNombre').val(data.data.nombre);
+            $('#txtRuc').val(data.data.ruc);
             $('#txtDireccion').val(data.data.direccion);
             $('#txtTelefono').val(data.data.telefono);
             $('#txtCorreoElectronico').val(data.data.correo_electronico);

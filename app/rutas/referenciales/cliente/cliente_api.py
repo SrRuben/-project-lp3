@@ -57,7 +57,7 @@ def addCliente():
     clientedao = ClienteDao()
 
     # Validar que el JSON no esté vacío y tenga las propiedades necesarias
-    campos_requeridos = ['nombre', 'direccion', 'telefono', 'correo_electronico']
+    campos_requeridos = ['ruc', 'direccion', 'telefono', 'correo_electronico']
 
     # Verificar si faltan campos o son vacíos
     for campo in campos_requeridos:
@@ -68,16 +68,16 @@ def addCliente():
                             }), 400
 
     try:
-        nombre = data['nombre'].upper()
+        ruc = data['ruc'].upper()
         direccion = data['direccion'].upper()
         telefono = data['telefono']
         correo_electronico = data['correo_electronico'].lower()
 
-        cliente_id = clientedao.guardarCliente(nombre, direccion, telefono, correo_electronico)
+        cliente_id = clientedao.guardarCliente(ruc, direccion, telefono, correo_electronico)
         if cliente_id is not None:
             return jsonify({
                 'success': True,
-                'data': {'id': cliente_id, 'nombre': nombre, 'direccion': direccion, 
+                'data': {'id': cliente_id, 'ruc': ruc, 'direccion': direccion, 
                          'telefono': telefono, 'correo_electronico': correo_electronico},
                 'error': None
             }), 201
@@ -96,7 +96,7 @@ def updateCliente(cliente_id):
     clientedao = ClienteDao()
 
     # Validar que el JSON no esté vacío y tenga las propiedades necesarias
-    campos_requeridos = ['nombre', 'direccion', 'telefono', 'correo_electronico']
+    campos_requeridos = ['ruc', 'direccion', 'telefono', 'correo_electronico']
 
     # Verificar si faltan campos o son vacíos
     for campo in campos_requeridos:
@@ -106,16 +106,16 @@ def updateCliente(cliente_id):
                             'error': f'El campo {campo} es obligatorio y no puede estar vacío.'
                             }), 400
 
-    nombre = data['nombre'].upper()
+    ruc = data['ruc'].upper()
     direccion = data['direccion'].upper()
     telefono = data['telefono']
     correo_electronico = data['correo_electronico'].lower()
 
     try:
-        if clientedao.updateCliente(cliente_id, nombre, direccion, telefono, correo_electronico):
+        if clientedao.updateCliente(cliente_id, ruc, direccion, telefono, correo_electronico):
             return jsonify({
                 'success': True,
-                'data': {'id': cliente_id, 'nombre': nombre, 'direccion': direccion, 
+                'data': {'id': cliente_id, 'ruc': ruc, 'direccion': direccion, 
                          'telefono': telefono, 'correo_electronico': correo_electronico},
                 'error': None
             }), 200

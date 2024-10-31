@@ -7,7 +7,7 @@ class ClienteDao:
     def getClientes(self):
 
         clienteSQL = """
-        SELECT id, nombre, direccion, telefono, correo_electronico
+        SELECT id, ruc, direccion, telefono, correo_electronico
         FROM cliente
         """
         # objeto conexion
@@ -19,7 +19,7 @@ class ClienteDao:
             clientes = cur.fetchall()  # trae datos de la bd
 
             # Transformar los datos en una lista de diccionarios
-            return [{'id': cliente[0], 'nombre': cliente[1], 'direccion': cliente[2], 
+            return [{'id': cliente[0], 'ruc': cliente[1], 'direccion': cliente[2], 
                      'telefono': cliente[3], 'correo_electronico': cliente[4]} for cliente in clientes]
 
         except Exception as e:
@@ -33,7 +33,7 @@ class ClienteDao:
     def getClienteById(self, id):
 
         clienteSQL = """
-        SELECT id, nombre, direccion, telefono, correo_electronico
+        SELECT id, ruc, direccion, telefono, correo_electronico
         FROM cliente WHERE id=%s
         """
         # objeto conexion
@@ -46,7 +46,7 @@ class ClienteDao:
             if clienteEncontrado:
                 return {
                     "id": clienteEncontrado[0],
-                    "nombre": clienteEncontrado[1],
+                    "ruc": clienteEncontrado[1],
                     "direccion": clienteEncontrado[2],
                     "telefono": clienteEncontrado[3],
                     "correo_electronico": clienteEncontrado[4]
@@ -61,10 +61,10 @@ class ClienteDao:
             cur.close()
             con.close()
 
-    def guardarCliente(self, nombre, direccion, telefono, correo_electronico):
+    def guardarCliente(self, ruc, direccion, telefono, correo_electronico):
 
         insertClienteSQL = """
-        INSERT INTO cliente(nombre, direccion, telefono, correo_electronico) 
+        INSERT INTO cliente(ruc, direccion, telefono, correo_electronico) 
         VALUES(%s, %s, %s, %s) RETURNING id
         """
 
@@ -74,7 +74,7 @@ class ClienteDao:
 
         # Ejecucion exitosa
         try:
-            cur.execute(insertClienteSQL, (nombre, direccion, telefono, correo_electronico,))
+            cur.execute(insertClienteSQL, (ruc, direccion, telefono, correo_electronico,))
             cliente_id = cur.fetchone()[0]
             con.commit()  # se confirma la insercion
             return cliente_id
@@ -90,11 +90,11 @@ class ClienteDao:
             cur.close()
             con.close()
 
-    def updateCliente(self, id, nombre, direccion, telefono, correo_electronico):
+    def updateCliente(self, id, ruc, direccion, telefono, correo_electronico):
 
         updateClienteSQL = """
         UPDATE cliente
-        SET nombre=%s, direccion=%s, telefono=%s, correo_electronico=%s
+        SET ruc=%s, direccion=%s, telefono=%s, correo_electronico=%s
         WHERE id=%s
         """
 
@@ -103,7 +103,7 @@ class ClienteDao:
         cur = con.cursor()
 
         try:
-            cur.execute(updateClienteSQL, (nombre, direccion, telefono, correo_electronico, id,))
+            cur.execute(updateClienteSQL, (ruc, direccion, telefono, correo_electronico, id,))
             filas_afectadas = cur.rowcount  # Obtener el número de filas afectadas
             con.commit()
 
